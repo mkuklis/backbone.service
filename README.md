@@ -47,7 +47,27 @@ user.login({ username: 'bob', password: 'secret' });
 
 ````
 
+## Promises
 
+Backbone.service comes with a simple implementation of promises (because callbacks are ugly). You can use them like this:
+
+````javascript
+
+user.updateSettings(settings).then(function (res) {
+  // do something after successful update
+}, function (err, response) {
+  // do something in case of an error
+});
+
+
+````
+
+Callbacks are still supported. You can pass them as a second argument in your calls:
+
+````javascript
+user.updateSettings(settings, { success: function (res) {}, error: function (res) {} });
+
+````
 
 ##License:
 <pre>
