@@ -2,7 +2,8 @@ backbone.service
 ================
 [![build status](https://secure.travis-ci.org/mkuklis/backbone.service.png)](http://travis-ci.org/mkuklis/backbone.service)
 
-Sometimes you run into situations when restful API is not an option. Backbone.service is trying to solve this for you.
+Sometimes you run into situations when restful API for your Backbone models or collections is not an option. 
+Backbone.service is trying to solve this for you.
 
 ## Install
 
@@ -27,16 +28,16 @@ You can use backbone.service.js as a standalone object or extend backbone model 
  };
 
 // standalone service
-
 var service = new Backbone.Service({ url: "http://localhost:5000", targets: targets }));
 
 // extend backbone model
-
 var User = Backbone.Model.extend(service);
 
 ````
 
 User model has now access to new methods: `login`, `signup`, `logout`, `search`, `resetPassword`, `updateSettings`.
+Each new method takes two arguments `data` and `options`.
+
 You can use it like this:
 
 ````javascript
@@ -54,7 +55,7 @@ Backbone.service comes with a simple implementation of promises. You can use the
 
 user.updateSettings(settings).then(function (res) {
   // do something after successful update
-}, function (err, response) {
+}, function (err, res) {
   // do something in case of an error
 });
 
@@ -64,7 +65,14 @@ user.updateSettings(settings).then(function (res) {
 Callbacks are still supported. You can pass them as a second argument in your calls:
 
 ````javascript
-user.updateSettings(settings, { success: function (res) {}, error: function (res) {} });
+user.updateSettings(settings, {
+  success: function (res) {
+    // do something after successful update
+  },
+  error: function (err, res) {
+    // do something in case of an error
+  }
+});
 
 ````
 
