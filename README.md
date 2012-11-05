@@ -1,7 +1,6 @@
 backbone.service
 ================
 [![build status](https://secure.travis-ci.org/mkuklis/backbone.service.js.png)](http://travis-ci.org/mkuklis/backbone.service.js)
-# backbone.service
 
 Sometimes you run into situations when restful API is not an option. Backbone.service is trying to solve this for you.
 
