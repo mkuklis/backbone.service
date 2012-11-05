@@ -4,23 +4,23 @@
 
   function Service(options) {
     this.options = options || {};
-    this.ctx = options.context || this;
     this.endpoints = parseEndpoints(options.endpoints);
     _(this.endpoints).each(this.createMethod, this);
   }
 
   Service.prototype.createMethod = function (endpoint) {
     this[endpoint.name] = function (data, options) {
-      var promise = new Promise(this.ctx);
-      options = _.extend(this.createOptions(promise, endpoint), options);
-      Backbone.sync(endpoint.method, data, options);
+      var promise = new Promise(this);
+      options = _.extend(this.createOptions(promise, endpoint, data), options);
+      Backbone.sync(methodMap[endpoint.method.toUpperCase()], null, options);
       return promise;
     }
   }
 
-  Service.prototype.createOptions = function (promise, endpoint) {
+  Service.prototype.createOptions = function (promise, endpoint, data) {
     return {
       url: this.options.url + endpoint.path,
+      data: data,
       success: function (resp, status, xhr) {
         promise.resolve();
       },
@@ -30,10 +30,16 @@
     };
   };
 
-  // helpers
+  var methodMap = {
+    'POST':   'create',
+    'PUT':    'update',
+    'DELETE': 'delete',
+    'GET':    'read'
+  };
+
   function parseEndpoints(endpoints) {
     return _(endpoints).map(function (props, name) {
-      var endpoint = { name: name, path: props, method: "read" };
+      var endpoint = { name: name, path: props, method: "GET" };
       if (_.isArray(props)) {
         _.extend(endpoint, { path: props[0], method: props[1] });
       }
