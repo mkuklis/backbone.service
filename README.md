@@ -8,9 +8,7 @@ Sometimes you run into situations when restful API is not an option. Backbone.se
 ## Install
 
 ````javascript
-
 <script src="backbone.service.js"></script>
-
 ````
 
 ## Usage
