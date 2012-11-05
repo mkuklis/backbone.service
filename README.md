@@ -7,7 +7,11 @@ Sometimes you run into situations when restful API is not an option. Backbone.se
 
 ## Install
 
-    <script src="backbone.service.js"></script>
+````javascript
+
+<script src="backbone.service.js"></script>
+
+````
 
 ## Usage
 
@@ -21,7 +25,7 @@ You can use backbone.service.js as a standalone object or extend backbone model 
    signup: ["/signup", "post"],
    logout: ["/logout", "get"],
    search: ["/search", "get"],
-   resetpassword: ["/resetpassword", "post"],
+   resetPassword: ["/resetpassword", "post"],
    updateSettings: ["/updateSettings", "post"]
  };
 
@@ -34,6 +38,18 @@ var service = new Backbone.Service({ url: "http://localhost:5000", targets: targ
 var User = Backbone.Model.extend(service);
 
 ````
+
+User model has now access to new methods: `login`, `signup`, `logout`, `search`, `resetPassword`, `updateSettings`.
+You can use it like this:
+
+````javascript
+
+var user = new User();
+user.login({ username: 'bob', password: 'secret' });
+
+````
+
+
 
 ##License:
 <pre>
