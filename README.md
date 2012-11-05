@@ -17,12 +17,12 @@ You can use backbone.service.js as a standalone object or extend backbone model 
 
 ````javascript
 
-// server targets
+// define server targets / endpoints
  var targets = {
    login: ["/login", "post"],
    signup: ["/signup", "post"],
    logout: ["/logout", "get"],
-   search: ["/search", "get"],
+   search: "/search" // defaults to get
    resetPassword: ["/resetpassword", "post"],
    updateSettings: ["/updateSettings", "post"]
  };
@@ -47,7 +47,7 @@ user.login({ username: 'bob', password: 'secret' });
 
 ````
 
-## Promises
+## Promises / Callbacks
 
 Backbone.service comes with a simple implementation of promises. You can use them like this:
 
