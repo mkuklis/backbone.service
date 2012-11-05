@@ -48,7 +48,7 @@ user.login({ username: 'bob', password: 'secret' });
 
 ## Promises
 
-Backbone.service comes with a simple implementation of promises (because callbacks are ugly). You can use them like this:
+Backbone.service comes with a simple implementation of promises. You can use them like this:
 
 ````javascript
 

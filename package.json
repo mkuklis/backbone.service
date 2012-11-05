@@ -1,0 +1,19 @@
+{
+  "name": "backbone.service",
+  "author": {
+    "name": "Michal Kuklis",
+    "email": "michal.kuklis@gmail.com"
+  },
+  "version": "0.1.0",
+  "dependencies": {
+  },
+  "analyze": false,
+  "devDependencies": {
+    "mocha-phantomjs": "latest"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
+

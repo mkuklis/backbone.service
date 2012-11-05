@@ -11,21 +11,25 @@
   Service.prototype.createMethod = function (target) {
     this[target.name] = function (data, options) {
       var promise = new Promise(this);
-      options = _.extend(this.createOptions(promise, target, data), options);
+      options = this.createOptions(promise, target, data, options);
       Backbone.sync(methodMap[target.method.toUpperCase()], null, options);
       return promise;
     }
   }
 
-  Service.prototype.createOptions = function (promise, target, data) {
+  Service.prototype.createOptions = function (promise, target, data, options) {
+    var self = this;
     return {
       url: this.options.url + target.path,
       data: data,
       success: function (resp, status, xhr) {
-        promise.resolve();
+        options.success && options.success.call(self, resp);
+        promise.resolve(resp);
       },
-      error: function () {
-        promise.reject();
+      error: function (xhr, status, error) {
+        console.log(arguments);
+        options.error && options.error.apply(self, arguments);
+        promise.reject(error, xhr);
       }
     };
   };
