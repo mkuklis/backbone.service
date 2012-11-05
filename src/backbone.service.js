@@ -4,22 +4,22 @@
 
   function Service(options) {
     this.options = options || {};
-    this.endpoints = parseEndpoints(options.endpoints);
-    _(this.endpoints).each(this.createMethod, this);
+    this.targets = parseTargets(options.targets);
+    _(this.targets).each(this.createMethod, this);
   }
 
-  Service.prototype.createMethod = function (endpoint) {
-    this[endpoint.name] = function (data, options) {
+  Service.prototype.createMethod = function (target) {
+    this[target.name] = function (data, options) {
       var promise = new Promise(this);
-      options = _.extend(this.createOptions(promise, endpoint, data), options);
-      Backbone.sync(methodMap[endpoint.method.toUpperCase()], null, options);
+      options = _.extend(this.createOptions(promise, target, data), options);
+      Backbone.sync(methodMap[target.method.toUpperCase()], null, options);
       return promise;
     }
   }
 
-  Service.prototype.createOptions = function (promise, endpoint, data) {
+  Service.prototype.createOptions = function (promise, target, data) {
     return {
-      url: this.options.url + endpoint.path,
+      url: this.options.url + target.path,
       data: data,
       success: function (resp, status, xhr) {
         promise.resolve();
@@ -37,13 +37,13 @@
     'GET':    'read'
   };
 
-  function parseEndpoints(endpoints) {
-    return _(endpoints).map(function (props, name) {
-      var endpoint = { name: name, path: props, method: "GET" };
+  function parseTargets(targets) {
+    return _(targets).map(function (props, name) {
+      var target = { name: name, path: props, method: "GET" };
       if (_.isArray(props)) {
-        _.extend(endpoint, { path: props[0], method: props[1] });
+        _.extend(target, { path: props[0], method: props[1] });
       }
-      return endpoint;
+      return target;
     });
   }
 
