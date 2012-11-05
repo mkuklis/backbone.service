@@ -28,7 +28,7 @@
       },
       error: function (xhr, status, error) {
         console.log(arguments);
-        options.error && options.error.apply(self, arguments);
+        options.error && options.error.apply(self, [error, xhr]);
         promise.reject(error, xhr);
       }
     };
