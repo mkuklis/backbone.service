@@ -37,6 +37,17 @@ describe('backbone.service', function () {
       });
     });
 
+    describe('#createOptions', function () {
+      it("should create options", function () {
+        var service = new Backbone.Service(this.options);
+        var options = service.createOptions(null, { path: '/ping' }, { param: true });
+        expect(options.url).to.equal(this.options.url + '/ping');
+        expect(options.success).to.be.a('function');
+        expect(options.error).to.be.a('function');
+        expect(options.data.param).to.equal(true);
+      });
+    });
+
     describe("new target methods", function () {
       beforeEach(function () {
         var contentType = { "Content-Type": "application/json" };
