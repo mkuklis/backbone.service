@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Backbone.service by mkuklis</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/mkuklis/backbone.service">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/mkuklis/backbone.service/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/mkuklis/backbone.service/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Backbone.service</h1>
+          <p>Backbone service for non restful or semi restful apis</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/mkuklis">mkuklis</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Backbone.Service</h1>
+
+<p>Backbone.Service aims to help with the cases when restul API is not an option.</p>
+
+<h2>Install</h2>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"backbone.service.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</pre></div>
+
+<h2>Usage</h2>
+
+<p>You can use backbone.service as a standalone object or extend backbone model or collection.</p>
+
+<div class="highlight"><pre>
+<span class="c1">// define server targets / endpoints</span>
+<span class="kd">var</span> <span class="nx">targets</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">login</span><span class="o">:</span> <span class="p">[</span><span class="s2">"/login"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">],</span>
+  <span class="nx">signup</span><span class="o">:</span> <span class="p">[</span><span class="s2">"/signup"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">],</span>
+  <span class="nx">logout</span><span class="o">:</span> <span class="p">[</span><span class="s2">"/logout"</span><span class="p">,</span> <span class="s2">"get"</span><span class="p">],</span>
+  <span class="nx">search</span><span class="o">:</span> <span class="s2">"/search"</span> <span class="c1">// defaults to get</span>
+  <span class="nx">resetPassword</span><span class="o">:</span> <span class="p">[</span><span class="s2">"/resetpassword"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">],</span>
+  <span class="nx">updateSettings</span><span class="o">:</span> <span class="p">[</span><span class="s2">"/updateSettings"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">]</span>
+<span class="p">};</span>
+
+<span class="c1">// standalone service</span>
+<span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Service</span><span class="p">({</span> <span class="nx">url</span><span class="o">:</span> <span class="s2">"http://localhost:5000"</span><span class="p">,</span> <span class="nx">targets</span><span class="o">:</span> <span class="nx">targets</span> <span class="p">});</span>
+
+<span class="c1">// extend backbone model</span>
+<span class="kd">var</span> <span class="nx">User</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">service</span><span class="p">);</span>
+
+</pre></div>
+
+<p>Each target passed to Backbone.Service becomes a method on the model or collection.</p>
+
+<p>User model has now access to new methods: <code>login</code>, <code>signup</code>, <code>logout</code>, <code>search</code>, <code>resetPassword</code>, <code>updateSettings</code>.
+Each new method takes two arguments: <code>data</code> and <code>options</code>.</p>
+
+<p>You can use it like this:</p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">();</span>
+<span class="nx">user</span><span class="p">.</span><span class="nx">login</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">'bob'</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">'secret'</span> <span class="p">});</span>
+
+</pre></div>
+
+<h2>Promises / Callbacks</h2>
+
+<p>Backbone.service comes with a simple implementation of promises. You can use them like this:</p>
+
+<div class="highlight"><pre>
+<span class="nx">user</span><span class="p">.</span><span class="nx">updateSettings</span><span class="p">(</span><span class="nx">settings</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// do something after successful update</span>
+<span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// do something in case of an error</span>
+<span class="p">});</span>
+
+
+</pre></div>
+
+<p>Callbacks are still supported. You can pass them as a second argument in your calls:</p>
+
+<div class="highlight"><pre><span class="nx">user</span><span class="p">.</span><span class="nx">updateSettings</span><span class="p">(</span><span class="nx">settings</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something after successful update</span>
+  <span class="p">},</span>
+  <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something in case of an error</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h2>License:</h2>
+
+<pre>
+(The MIT License)
+
+Copyright (c) 2012 Michal Kuklis
+
+</pre>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
