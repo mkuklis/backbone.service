@@ -17,15 +17,14 @@ You can use backbone.service as a standalone object or extend backbone model or 
 ````javascript
 
 // define server targets / endpoints
-
- var targets = {
-   login: ["/login", "post"],
-   signup: ["/signup", "post"],
-   logout: ["/logout", "get"],
-   search: "/search" // defaults to get
-   resetPassword: ["/resetpassword", "post"],
-   updateSettings: ["/updateSettings", "post"]
- };
+var targets = {
+  login: ["/login", "post"],
+  signup: ["/signup", "post"],
+  logout: ["/logout", "get"],
+  search: "/search" // defaults to get
+  resetPassword: ["/resetpassword", "post"],
+  updateSettings: ["/updateSettings", "post"]
+};
 
 // standalone service
 var service = new Backbone.Service({ url: "http://localhost:5000", targets: targets });
