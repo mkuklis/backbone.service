@@ -4,7 +4,7 @@
 
   function Service(options) {
     this.options = options || {};
-    this.targets = parseTargets(options.targets);
+    this.targets = parseTargets(this.options.targets || {});
     _(this.targets).each(this.createMethod, this);
   }
 
@@ -19,6 +19,7 @@
 
   Service.prototype.createOptions = function (promise, target, data, options) {
     var self = this;
+    options || (options = {})
     return {
       url: this.options.url + target.path,
       data: data,
@@ -27,7 +28,6 @@
         promise.resolve(resp);
       },
       error: function (xhr, status, error) {
-        console.log(arguments);
         options.error && options.error.apply(self, [error, xhr]);
         promise.reject(error, xhr);
       }
