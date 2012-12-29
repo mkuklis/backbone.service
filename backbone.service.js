@@ -12,7 +12,8 @@
     this[target.name] = function (data, options) {
       var promise = new Promise(this);
       options = this.createOptions(promise, target, data, options);
-      Backbone.sync(methodMap[target.method.toUpperCase()], null, options);
+      var method = methodMap[target.method.toUpperCase()];
+      Backbone.sync(method, this, options);
       return promise;
     }
   }
@@ -51,6 +52,7 @@
     });
   }
 
+  _.extend(Service.prototype, Backbone.Events);
   Backbone.Service = Service;
 
   // simple promise implementation

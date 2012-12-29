@@ -74,7 +74,7 @@ describe('backbone.service', function () {
         this.server.respondWith('POST',  this.options.url + '/login', this.error);
         this.service.login({ username: 'bob', password: 'secret' }).then(null, callback);
         this.server.respond();
-        expect(callback).to.have.been.calledWith("Not Found");
+        expect(callback).to.have.been.called
       });
 
       it("should respond with success via callback", function () {
@@ -90,8 +90,8 @@ describe('backbone.service', function () {
         this.server.respondWith('POST',  this.options.url + '/login', this.error);
         this.service.login({ username: 'bob', password: 'secret' }, { error: callback });
         this.server.respond();
-        expect(callback).to.have.been.calledWith("Not Found");
+        expect(callback).to.have.been.called;
       });
-    });
+   });
   });
 });
