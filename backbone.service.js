@@ -22,7 +22,7 @@
     var self = this;
     options || (options = {})
     return {
-      url: this.options.url + target.path,
+      url: _.result(this.options, 'url') + target.path,
       data: data,
       success: function (resp, status, xhr) {
         options.success && options.success.call(self, resp);
