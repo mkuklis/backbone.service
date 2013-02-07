@@ -9,18 +9,23 @@
   }
 
   Service.prototype.createMethod = function (target) {
+    var promise, method;
+
     this[target.name] = function (data, options) {
-      var promise = new Promise(this);
+      promise = new Promise(this);
       options = this.createOptions(promise, target, data, options);
-      var method = methodMap[target.method.toUpperCase()];
+      method = methodMap[target.method.toUpperCase()];
       Backbone.sync(method, this, options);
+
       return promise;
     }
   }
 
   Service.prototype.createOptions = function (promise, target, data, options) {
     var self = this;
-    options || (options = {})
+    
+    options || (options = {});
+
     return {
       url: _.result(this.options, 'url') + target.path,
       data: data,
@@ -43,11 +48,15 @@
   };
 
   function parseTargets(targets) {
+    var target;
+
     return _(targets).map(function (props, name) {
-      var target = { name: name, path: props, method: "GET" };
+      target = { name: name, path: props, method: "GET" };
+
       if (_.isArray(props)) {
         _.extend(target, { path: props[0], method: props[1] });
       }
+
       return target;
     });
   }
@@ -64,6 +73,7 @@
 
   Promise.prototype = {
     constructor: Promise,
+    
     then: function (success, error) {
       if (success) {
         if (this.resolved) {
@@ -88,8 +98,10 @@
 
     resolve: function () {
       var callback;
+    
       this.resolved = arguments;
       this.error = [];
+      
       while (callback = this.success.shift()) {
         callback.apply(this.context, this.resolved);
       }
@@ -97,8 +109,10 @@
 
     reject: function () {
       var callback;
+      
       this.rejected = arguments;
       this.success = [];
+      
       while (callback = this.error.shift()) {
         callback.apply(this.context, this.rejected);
       }

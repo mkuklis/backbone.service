@@ -77,6 +77,11 @@ user.updateSettings(settings, {
 
 ````
 
+##Contributors
+
+* [@mkuklis](http://github.com/mkuklis)
+* [@scttnlsn](http://github.com/scttnlsn)
+
 ##License:
 <pre>
 (The MIT License)
