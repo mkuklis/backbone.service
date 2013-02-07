@@ -46,6 +46,16 @@ describe('backbone.service', function () {
         expect(options.error).to.be.a('function');
         expect(options.data.param).to.equal(true);
       });
+
+      it("should accept url function", function() {
+        this.options.url = function() {
+          return 'http://localhost';
+        };
+        
+        var service = new Backbone.Service(this.options);
+        var options = service.createOptions(null, { path: '/ping' });
+        expect(options.url).to.equal('http://localhost/ping');
+      });
     });
 
     describe("new target methods", function () {
