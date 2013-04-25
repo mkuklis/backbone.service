@@ -1,4 +1,12 @@
-(function (Backbone) {
+(function (factory) {
+  if (typeof exports === 'object') {
+    module.exports = factory(require('underscore'), require('backbone'));
+  } else if (typeof define === 'function' && define.amd) {
+    define(['underscore', 'backbone'], factory);
+  } else {
+    factory(_, Backbone);
+  }
+})(function (_, Backbone) {
 
   "use strict";
 
@@ -23,7 +31,7 @@
 
   Service.prototype.createOptions = function (promise, target, data, options) {
     var self = this;
-    
+
     options || (options = {});
 
     return {
@@ -73,7 +81,7 @@
 
   Promise.prototype = {
     constructor: Promise,
-    
+
     then: function (success, error) {
       if (success) {
         if (this.resolved) {
@@ -98,10 +106,10 @@
 
     resolve: function () {
       var callback;
-    
+
       this.resolved = arguments;
       this.error = [];
-      
+
       while (callback = this.success.shift()) {
         callback.apply(this.context, this.resolved);
       }
@@ -109,14 +117,14 @@
 
     reject: function () {
       var callback;
-      
+
       this.rejected = arguments;
       this.success = [];
-      
+
       while (callback = this.error.shift()) {
         callback.apply(this.context, this.rejected);
       }
     }
   };
-
-})(Backbone);
+})
+//(Backbone);
