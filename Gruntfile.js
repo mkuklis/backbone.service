@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    min: {
+    uglify: {
       dist: {
         src: 'backbone.service.js',
         dest: 'backbone.service.min.js'
@@ -19,10 +19,10 @@ module.exports = function (grunt) {
         newcap: true,
         laxcomma: true,
         strict: false,
-        validthis: true
-      },
-      globals: {
-        "Backbone": true
+        validthis: true,
+        globals: {
+          "Backbone": true
+        }
       }
     },
 
@@ -31,5 +31,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', 'lint min');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.registerTask('default', ['jshint', 'uglify']);
 }

@@ -5,10 +5,11 @@
     "email": "michal.kuklis@gmail.com"
   },
   "version": "0.2.0",
-  "dependencies": {
-  },
   "analyze": false,
   "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-uglify": "0.2.0",
+    "grunt-contrib-jshint": "0.3.0",
     "mocha-phantomjs": "latest"
   },
   "optionalDependencies": {},
