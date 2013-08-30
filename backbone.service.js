@@ -34,7 +34,7 @@
 
     options || (options = {});
 
-    return {
+    return _.extend({
       url: _.result(this.options, 'url') + target.path,
       data: data,
       success: function (resp, status, xhr) {
@@ -45,7 +45,7 @@
         options.error && options.error.apply(self, [error, xhr]);
         promise.reject(error, xhr);
       }
-    };
+    }, options);
   };
 
   var methodMap = {
