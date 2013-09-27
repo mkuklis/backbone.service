@@ -71,6 +71,14 @@ describe('backbone.service', function () {
         this.server.restore();
       });
 
+      it("should evaluate variables in url", function() {
+        this.options.targets.test = '/test/{x}/{y}/{x}';
+        this.service = new Backbone.Service(this.options);
+        this.service.test({ x: 'X', y: 'Y', z: 'Z' });
+        var request = this.server.requests[0];
+        expect(request.url).to.equal('http://localhost/test/X/Y/X?z=Z');
+      });
+
       it("should respond with success via then", function () {
         var callback = sinon.spy();
         this.server.respondWith('POST',  this.options.url + '/login', this.success);

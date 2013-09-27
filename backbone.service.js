@@ -31,11 +31,12 @@
 
   Service.prototype.createOptions = function (promise, target, data, options) {
     var self = this;
+    var url = _.result(this.options, 'url') + evaluate(target.path, data);
 
     options || (options = {});
 
     return _.extend({
-      url: _.result(this.options, 'url') + target.path,
+      url: url,
       data: data,
       success: function (resp, status, xhr) {
         options.success && options.success.call(self, resp);
@@ -67,6 +68,23 @@
 
       return target;
     });
+  }
+
+  function evaluate(template, data) {
+    var mapped = [];
+    var result = template.replace(/\{([^{}]*)\}/g, function (ignore, key) {
+      if (key in data) {
+        mapped.push(key);
+        return data[key];
+      }
+      return key;
+    });
+
+    _(mapped).each(function (key) {
+      delete data[key];
+    });
+
+    return result;
   }
 
   _.extend(Service.prototype, Backbone.Events);
