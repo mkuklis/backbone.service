@@ -1,0 +1,32 @@
+<html>
+<head></head>
+<body>
+
+<script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="http://backbonejs.org/backbone-min.js"></script>
+<script src="./js/backbone.service.js"></script>
+<script>
+    // define server targets/endpoints
+    var targets = {
+      login: ["/login", "post"]
+    };
+
+    // standalone service
+    var service = new Backbone.Service({ url: "http://localhost:3000", targets: targets });
+    // extend backbone model
+    var User = Backbone.Model.extend(service);
+
+    var myUser = new User();
+
+    myUser.login({ employee_id: 'test', password: 'test', group: 'test' }, {
+      success: function (res) {
+        console.log('success', JSON.stringify(res));
+      },
+      error: function (res) {
+        console.log("error", res);
+      }
+    });
+</script>
+</body>
+</html>
